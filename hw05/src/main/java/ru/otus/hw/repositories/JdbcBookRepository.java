@@ -20,6 +20,8 @@ import java.util.Optional;
 @Repository
 public class JdbcBookRepository implements BookRepository {
 
+    public static final String BOOK_FOR_UPDATE_NOT_FOUND = "Book for update not found";
+
     private final NamedParameterJdbcOperations jdbc;
 
     public JdbcBookRepository(NamedParameterJdbcOperations jdbc) {
@@ -89,7 +91,7 @@ public class JdbcBookRepository implements BookRepository {
                                           "where id = :id", params);
         // Выбросить EntityNotFoundException если не обновлено ни одной записи в БД
         if (rows == 0) {
-            throw new EntityNotFoundException("Book for update not found");
+            throw new EntityNotFoundException(BOOK_FOR_UPDATE_NOT_FOUND);
         }
         return book;
     }
